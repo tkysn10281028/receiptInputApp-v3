@@ -15,13 +15,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/css/**").antMatchers("/js/**").antMatchers("/img/**");
-
 	}
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers("/", "/test", "/testDto").permitAll().anyRequest().authenticated();
 	}
-
 }
