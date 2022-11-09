@@ -1,6 +1,5 @@
 package com.sono.mybatch.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sono.mybatch.dto.ItemInfoSearchResultDto;
+import com.sono.mybatch.model.ItemInfoSearchResultModel;
 import com.sono.mybatch.service.SearchResultService;
 import com.sono.mybatch.utils.LogUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class SearchController {
 	@Autowired
 	LogUtils logUtils;
@@ -25,15 +27,13 @@ public class SearchController {
 	SearchResultService resultService;
 
 	@RequestMapping(path = "/api/v1/getResultBySearchWord", method = RequestMethod.POST)
-	public ResponseEntity<List<ItemInfoSearchResultDto>> getResultBySearchWord(
+	public ResponseEntity<List<ItemInfoSearchResultModel>> getResultBySearchWord(
 			@RequestParam(value = "searchWord", required = true) String searchWord) {
 		logUtils.getCalledAPIFirstLog(Thread.currentThread().getStackTrace()[1].getMethodName(), searchWord);
-
 		HttpHeaders headers = new HttpHeaders();
-//		dto for test
-		var list = new ArrayList<ItemInfoSearchResultDto>();
-		list.add(new ItemInfoSearchResultDto("i00000", "", 0, "", "", "", "", "", "", "", 0.0));
-//		dto for test end
-		return new ResponseEntity<List<ItemInfoSearchResultDto>>(list, headers, HttpStatus.OK);
+		var result = resultService.getResultBySearchWord(searchWord);
+		log.info("Search Result : {}", result);
+		return new ResponseEntity<List<ItemInfoSearchResultModel>>(result, headers, HttpStatus.OK);
+
 	}
 }

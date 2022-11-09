@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @TestInstance(Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
 class SearchResultServiceTest {
-	@MockBean
+	@Autowired
 	SearchResultService resultService;
 
 	@Test
@@ -32,7 +32,6 @@ class SearchResultServiceTest {
 		assertEquals("中分類テスト用", result.get(0).getItemMiddleName());
 		assertEquals("000", result.get(0).getItemMinorDiv());
 		assertEquals("小分類テスト用", result.get(0).getItemMinorName());
-		assertEquals("id000", result.get(0).getItemDiscountDiv());
 		assertEquals(1.0, result.get(0).getItemDiscountRate());
 	}
 
@@ -49,7 +48,6 @@ class SearchResultServiceTest {
 		assertEquals("中分類テスト用", result.get(0).getItemMiddleName());
 		assertEquals("000", result.get(0).getItemMinorDiv());
 		assertEquals("小分類テスト用", result.get(0).getItemMinorName());
-		assertEquals("id000", result.get(0).getItemDiscountDiv());
 		assertEquals(1.0, result.get(0).getItemDiscountRate());
 	}
 

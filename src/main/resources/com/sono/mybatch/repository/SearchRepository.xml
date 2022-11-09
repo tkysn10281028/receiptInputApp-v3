@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.sono.mybatch.repository.SearchRepository">
+        <select id="getResultBySearchWord" resultType="com.sono.mybatch.model.ItemInfoSearchResultModel">
+            SELECT
+                MII.ITEM_ID,
+                MII.ITEM_NAME,
+                MII.ITEM_PRICE,
+                MICI.ITEM_MAJOR_DIV,
+                MJCI.ITEM_MAJOR_NAME,
+                MICI.ITEM_MIDDLE_DIV,
+                MDCI.ITEM_MIDDLE_NAME,
+                MICI.ITEM_MINOR_DIV,
+                MNCI.ITEM_MINOR_NAME,
+                MIDI.ITEM_DISCOUNT_RATE
+            FROM
+                M_ITEM_INFO MII
+                    INNER JOIN M_ITEM_CLASS_INFO MICI ON
+                        MII.ITEM_ID = MICI.ITEM_ID
+                    LEFT JOIN M_ITEM_CLASS_MAJOR_INFO MJCI ON
+                        MICI.ITEM_MAJOR_DIV = MJCI.ITEM_MAJOR_DIV
+                    LEFT JOIN M_ITEM_CLASS_MIDDLE_INFO MDCI ON
+                        MICI.ITEM_MAJOR_DIV = MDCI.ITEM_MAJOR_DIV AND MICI.ITEM_MIDDLE_DIV = MDCI.ITEM_MIDDLE_DIV
+                    LEFT JOIN M_ITEM_CLASS_MINOR_INFO MNCI ON
+                        MNCI.ITEM_MAJOR_DIV = MICI.ITEM_MAJOR_DIV AND MNCI.ITEM_MIDDLE_DIV = MICI.ITEM_MIDDLE_DIV AND MNCI.ITEM_MINOR_DIV = MICI.ITEM_MINOR_DIV
+                    LEFT JOIN M_ITEM_DISCOUNT_INFO MIDI ON
+                        MIDI.ITEM_DISCOUNT_DIV = MII.ITEM_DISCOUNT_DIV
+            WHERE
+                MII.ITEM_NAME LIKE BINARY CONCAT('%',#{searchWord},'%')
+        </select>
+        <select id="getResultForSearchBySearchWord" resultType="com.sono.mybatch.model.ItemInfoSearchResultModel">
+            SELECT
+                MII.ITEM_ID,
+                MII.ITEM_NAME,
+                MII.ITEM_PRICE,
+                MICI.ITEM_MAJOR_DIV,
+                MJCI.ITEM_MAJOR_NAME,
+                MICI.ITEM_MIDDLE_DIV,
+                MDCI.ITEM_MIDDLE_NAME,
+                MICI.ITEM_MINOR_DIV,
+                MNCI.ITEM_MINOR_NAME,
+                MIDI.ITEM_DISCOUNT_RATE
+            FROM
+                M_ITEM_INFO MII
+                    INNER JOIN M_ITEM_CLASS_INFO MICI ON
+                        MII.ITEM_ID = MICI.ITEM_ID
+                    LEFT JOIN M_ITEM_CLASS_MAJOR_INFO MJCI ON
+                        MICI.ITEM_MAJOR_DIV = MJCI.ITEM_MAJOR_DIV
+                    LEFT JOIN M_ITEM_CLASS_MIDDLE_INFO MDCI ON
+                        MICI.ITEM_MAJOR_DIV = MDCI.ITEM_MAJOR_DIV AND MICI.ITEM_MIDDLE_DIV = MDCI.ITEM_MIDDLE_DIV
+                    LEFT JOIN M_ITEM_CLASS_MINOR_INFO MNCI ON
+                        MNCI.ITEM_MAJOR_DIV = MICI.ITEM_MAJOR_DIV AND MNCI.ITEM_MIDDLE_DIV = MICI.ITEM_MIDDLE_DIV AND MNCI.ITEM_MINOR_DIV = MICI.ITEM_MINOR_DIV
+                    LEFT JOIN M_ITEM_DISCOUNT_INFO MIDI ON
+                        MIDI.ITEM_DISCOUNT_DIV = MII.ITEM_DISCOUNT_DIV
+            WHERE
+                MII.ITEM_NAME_FOR_SEARCH LIKE BINARY CONCAT('%',#{searchWord},'%')
+        </select>
+    </mapper>

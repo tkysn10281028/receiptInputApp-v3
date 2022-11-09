@@ -33,7 +33,7 @@ class SearchControllerTest {
 	private String accessToken = "";
 	@Autowired
 	private MockMvc mockMvc;
-	@MockBean
+	@Autowired
 	SearchResultService resultService;
 	@MockBean
 	LogUtils logUtils;
@@ -57,8 +57,7 @@ class SearchControllerTest {
 				.andExpect(jsonPath("$[0].itemMiddleDiv").value("000"))
 				.andExpect(jsonPath("$[0].itemMiddleName").value("中分類テスト用"))
 				.andExpect(jsonPath("$[0].itemMinorDiv").value("000"))
-				.andExpect(jsonPath("$[0].itemMinorName").value("大分類テスト用"))
-				.andExpect(jsonPath("$[0].itemDiscountDiv").value("id000"))
+				.andExpect(jsonPath("$[0].itemMinorName").value("小分類テスト用"))
 				.andExpect(jsonPath("$[0].itemDiscountRate").value(1));
 	}
 
@@ -69,6 +68,7 @@ class SearchControllerTest {
 				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(1)))
 				.andExpect(jsonPath("$[0].itemId").value("i0000002")).andExpect(jsonPath("$[0].itemName").value("a"))
 				.andExpect(jsonPath("$[0].itemPrice").value(600));
+
 	}
 
 	@Test
@@ -164,7 +164,7 @@ class SearchControllerTest {
 				.header("Authorization", this.accessToken).contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(1)))
 				.andExpect(jsonPath("$[0].itemId").value("i0000013"))
-				.andExpect(jsonPath("$[0].itemName").value("ｱｲｳｴｵ")).andExpect(jsonPath("$[0].itemPrice").value(1600));
+				.andExpect(jsonPath("$[0].itemName").value("98765")).andExpect(jsonPath("$[0].itemPrice").value(1600));
 	}
 
 	@Test

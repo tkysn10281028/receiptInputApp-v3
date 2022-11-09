@@ -25,6 +25,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication auth)
 			throws IOException, ServletException {
 		log.info("login success");
+
 		var token = jwtUtils.generateAccessToken(auth.getName());
 		log.info("json web token : {}", token);
 	}

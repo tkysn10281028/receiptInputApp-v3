@@ -30,6 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (loginUser.isEmpty()) {
 			throw new BadCredentialsException(String.format("emailAddress < %s > not found.", emailaddress));
 		}
+
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		GrantedAuthority authority = new SimpleGrantedAuthority("USER");
 		authorities.add(authority);
