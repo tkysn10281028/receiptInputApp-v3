@@ -15,12 +15,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.sono.mybatch.loginhandler.CustomLogoutSuccessHandler;
 
 @SuppressWarnings("deprecation")
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
 	UserDetailsService detailsService;
 
@@ -38,6 +42,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	public LogoutSuccessHandler logoutSuccessHandler() {
+		// ハンドラを返す
+		return new CustomLogoutSuccessHandler();
+	}
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/css/**").antMatchers("/js/**").antMatchers("/img/**");
@@ -52,7 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureHandler(failureHandler);
 		http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated();
 		http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/api/v1/logout")).logoutSuccessUrl("/");
+		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/api/v1/logout"))
+				.logoutSuccessHandler(logoutSuccessHandler());
 	}
 
 	@Override

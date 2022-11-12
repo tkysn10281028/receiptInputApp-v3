@@ -174,4 +174,10 @@ class SearchControllerTest {
 				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(0)));
 	}
 
+	@Test
+	void testJwtTokenIdForSearchController() throws Exception {
+		mockMvc.perform(post("/api/v1/getResultBySearchWord").param("searchWord", "ｶ").header("Authorization", "")
+				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().is3xxRedirection());
+	}
+
 }

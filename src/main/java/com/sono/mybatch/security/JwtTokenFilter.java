@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.sono.mybatch.repository.GenerateNonJwtRepository;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -29,6 +31,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 	@Autowired
 	UserDetailsService detailsService;
 
+	@Autowired
+	GenerateNonJwtRepository generateNonJwtRepository;
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -38,11 +43,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 			return;
 		}
-		final String token = header;
+
+		String token = header;
 		if (!jwtUtils.validate(token)) {
-			log.info("token validation failed");
-			filterChain.doFilter(request, response);
-			return;
+			log.info("token validation failed. -> check if token mapped in the token table.");
+			token = generateNonJwtRepository.searchJwtTokenByJwtTokenId(token);
+			if (!jwtUtils.validate(token)) {
+				filterChain.doFilter(request, response);
+				return;
+			}
 		}
 		UserDetails userDetails = detailsService.loadUserByUsername(jwtUtils.getUserEmailAddress(token));
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
