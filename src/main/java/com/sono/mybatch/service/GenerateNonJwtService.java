@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sono.mybatch.repository.GenerateNonJwtRepository;
+import com.sono.mybatch.security.JwtUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,23 +17,36 @@ public class GenerateNonJwtService {
 	@Autowired
 	GenerateNonJwtRepository generateNonJwtRepository;
 
+	@Autowired
+	JwtUtils jwtUtils;
+
 	public String generateNonJwtToken(String token) {
-		var tokenId = UUID.randomUUID().toString();
-		generateNonJwtRepository.generateNonJwtToken(tokenId, token);
+		if (token == null) {
+			throw new IllegalArgumentException("Not valid Token.");
+		}
+		var tokenId = "jwtid: ".concat(StringUtils.replace(UUID.randomUUID().toString(), "-", ""));
+		generateNonJwtRepository.generateNonJwtToken(jwtUtils.removeJwtIdBearer(tokenId), token);
 		log.info("Successfully inserted token : {}, and token Id : {}", token, tokenId);
 		return tokenId;
 	}
 
 	public String searchJwtTokenByJwtId(String jwtId) {
-		var token = generateNonJwtRepository.searchJwtTokenByJwtTokenId(jwtId);
-		if (StringUtils.isEmpty(token)) {
+		if (StringUtils.isEmpty(jwtId)) {
+			throw new IllegalArgumentException("Not valid Jwt Id.");
+		}
+		if (!StringUtils.contains(jwtId, "jwtid: ")) {
+			throw new IllegalArgumentException("No Bearer Found For Jwt Id.");
+		}
+
+		var token = generateNonJwtRepository.searchJwtTokenByJwtTokenId(jwtUtils.removeJwtIdBearer(jwtId));
+		if (token == null) {
 			throw new IllegalArgumentException("Cannot Find Jwt Token");
 		}
 		return token;
 	}
 
 	public void deleteJwtTokenId(String tokenId) {
-		generateNonJwtRepository.deleteJwtTokenId(tokenId);
+		generateNonJwtRepository.deleteJwtTokenId(jwtUtils.removeJwtIdBearer(tokenId));
 		log.info("Successfully Deleted tokenId : {}", tokenId);
 	}
 }

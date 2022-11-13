@@ -3,6 +3,7 @@ package com.sono.mybatch.security;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
+import org.thymeleaf.util.StringUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -23,6 +24,7 @@ public class JwtUtils {
 	public boolean validate(String token) {
 		try {
 			Jwts.parser().setSigningKey(base64SecretBytes).parseClaimsJws(token);
+
 			return true;
 		} catch (SignatureException ex) {
 			ex.printStackTrace();
@@ -37,7 +39,6 @@ public class JwtUtils {
 		}
 		return false;
 	}
-//	
 
 	public String getUserEmailAddress(String token) {
 		Claims claims = Jwts.parser().setSigningKey(base64SecretBytes).parseClaimsJws(token).getBody();
@@ -48,5 +49,9 @@ public class JwtUtils {
 		return Jwts.builder().setSubject(emailAddress).setIssuer(jwtIssuer).setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000))
 				.signWith(SignatureAlgorithm.HS256, base64SecretBytes).compact();
+	}
+
+	public String removeJwtIdBearer(String jwtId) {
+		return StringUtils.replace(jwtId, "jwtid: ", "");
 	}
 }

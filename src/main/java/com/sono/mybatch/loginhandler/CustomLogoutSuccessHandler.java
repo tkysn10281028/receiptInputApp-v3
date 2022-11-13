@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
@@ -24,8 +23,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		log.info("logout success.");
-		var tokenId = request.getHeader(HttpHeaders.AUTHORIZATION);
-		generateNonJwtRepository.deleteJwtTokenId(tokenId);
-		response.sendRedirect("/");
+		response.setStatus(200);
 	}
 }

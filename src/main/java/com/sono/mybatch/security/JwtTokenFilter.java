@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.sono.mybatch.repository.GenerateNonJwtRepository;
+import com.sono.mybatch.service.GenerateNonJwtService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,13 +32,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 	UserDetailsService detailsService;
 
 	@Autowired
-	GenerateNonJwtRepository generateNonJwtRepository;
+	GenerateNonJwtService generateNonJwtService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		// httpヘッダーのAuthorizationヘッダの中身を取得
-		final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+		final String header = StringUtils.replace(request.getHeader(HttpHeaders.AUTHORIZATION), "Bearer ", "");
 		if (StringUtils.isEmpty(header)) {
 			filterChain.doFilter(request, response);
 			return;
@@ -47,10 +47,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		String token = header;
 		if (!jwtUtils.validate(token)) {
 			log.info("token validation failed. -> check if token mapped in the token table.");
-			token = generateNonJwtRepository.searchJwtTokenByJwtTokenId(token);
-			if (!jwtUtils.validate(token)) {
-				filterChain.doFilter(request, response);
-				return;
+			try {
+				token = generateNonJwtService.searchJwtTokenByJwtId(token);
+				if (!jwtUtils.validate(token)) {
+					filterChain.doFilter(request, response);
+					return;
+				}
+			} catch (IllegalArgumentException e) {
+				response.setStatus(403);
 			}
 		}
 		UserDetails userDetails = detailsService.loadUserByUsername(jwtUtils.getUserEmailAddress(token));

@@ -31,4 +31,10 @@
             WHERE
                 TOKEN_ID = #{tokenId}
         </delete>
+        <delete id="deleteInsertedJwtTokenId">
+            DELETE
+                FROM TOKEN_INFO
+            WHERE
+                CREATE_PRG = 'GenerateNonJwtRepository'
+        </delete>
     </mapper> 

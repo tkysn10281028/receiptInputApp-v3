@@ -10,4 +10,6 @@ public interface GenerateNonJwtRepository {
 	public void generateNonJwtToken(@Param("tokenId") String tokenId, @Param("jwtToken") String jwtToken);
 
 	public void deleteJwtTokenId(@Param("tokenId") String tokenId);
+
+	public void deleteInsertedJwtTokenId();
 }
