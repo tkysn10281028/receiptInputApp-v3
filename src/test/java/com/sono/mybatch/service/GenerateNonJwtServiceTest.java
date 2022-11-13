@@ -36,16 +36,19 @@ class GenerateNonJwtServiceTest {
 
 	@BeforeAll
 	public void insertTestDataBeforeAll() {
-		var result1 = generateNonJwtService.generateNonJwtToken("");
+		var result1 = generateNonJwtService.generateNonJwtToken("", "tkysn1028@gmail.com");
 		jwtTokenIdList.add(result1);
 		var result2 = generateNonJwtService.generateNonJwtToken(
-				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2NzcxOTczOCwiZXhwIjoxNjY4MzI0NTM4fQ.ISCX9j6isOda5LgTD6hAkMgpo1ijYCZ0_zRez1xNlvg");
+				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2NzcxOTczOCwiZXhwIjoxNjY4MzI0NTM4fQ.ISCX9j6isOda5LgTD6hAkMgpo1ijYCZ0_zRez1xNlvg",
+				"tkysn1028@gmail.com");
 		jwtTokenIdList.add(result2);
 		var result3 = generateNonJwtService.generateNonJwtToken(
-				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2ODA4NTEyNiwiZXhwIjoxNjY4Njg5OTI2fQ.X57wfgrH4W9orrRc-EZftqWspTlUi0aC0UoP6sgatT0");
+				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2ODA4NTEyNiwiZXhwIjoxNjY4Njg5OTI2fQ.X57wfgrH4W9orrRc-EZftqWspTlUi0aC0UoP6sgatT0",
+				"tkysn1028@gmail.com");
 		jwtTokenIdList.add(result3);
 		var result4 = generateNonJwtService.generateNonJwtToken(
-				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2ODA4NTEyNywiZXhwIjoxNjY4Njg5OTI3fQ.QqUbrXmPKQIETjId95y8Ccot1gs_vAiyPqqd3zCF5O0");
+				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2ODA4NTEyNywiZXhwIjoxNjY4Njg5OTI3fQ.QqUbrXmPKQIETjId95y8Ccot1gs_vAiyPqqd3zCF5O0",
+				"tkysn1028@gmail.com");
 		jwtTokenIdList.add(result4);
 	}
 
@@ -65,7 +68,7 @@ class GenerateNonJwtServiceTest {
 	@Test
 	void testGenerateNonJwtTokenByNull() {
 		try {
-			var result = generateNonJwtService.generateNonJwtToken(null);
+			var result = generateNonJwtService.generateNonJwtToken(null, "tkysn1028@gmail.com");
 			fail();
 		} catch (IllegalArgumentException e) {
 			assertTrue(e.getMessage().matches(".*Not valid Token."));
@@ -139,7 +142,6 @@ class GenerateNonJwtServiceTest {
 		} catch (IllegalArgumentException e) {
 			assertTrue(e.getMessage().matches(".*No Bearer Found For Jwt Id."));
 		}
-
 	}
 
 	@Test
@@ -170,11 +172,12 @@ class GenerateNonJwtServiceTest {
 		assertEquals(
 				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2ODA4NTEyNywiZXhwIjoxNjY4Njg5OTI3fQ.QqUbrXmPKQIETjId95y8Ccot1gs_vAiyPqqd3zCF5O0",
 				result);
+
 	}
 
 	@Test
 	void testDeleteJwtToken1() {
-		var result = generateNonJwtService.generateNonJwtToken("");
+		var result = generateNonJwtService.generateNonJwtToken("", "tkysn1028@gmail.com");
 		generateNonJwtService.deleteJwtTokenId(result);
 		assertEquals(null, generateNonJwtRepository.searchJwtTokenByJwtTokenId(jwtUtils.removeJwtIdBearer(result)));
 	}
@@ -182,9 +185,30 @@ class GenerateNonJwtServiceTest {
 	@Test
 	void testDeleteJwtToken2() {
 		var result = generateNonJwtService.generateNonJwtToken(
-				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2ODA4NTEyNywiZXhwIjoxNjY4Njg5OTI3fQ.QqUbrXmPKQIETjId95y8Ccot1gs_vAiyPqqd3zCF5O0");
+				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2ODA4NTEyNywiZXhwIjoxNjY4Njg5OTI3fQ.QqUbrXmPKQIETjId95y8Ccot1gs_vAiyPqqd3zCF5O0",
+				"tkysn1028@gmail.com");
 		generateNonJwtService.deleteJwtTokenId(result);
 		assertEquals(null, generateNonJwtRepository.searchJwtTokenByJwtTokenId(jwtTokenIdList.get(1)));
 	}
 
+	@Test
+	void testDeleteJwtTokenByEmailAddress() {
+		var result = generateNonJwtService.generateNonJwtToken(
+				"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2ODA4NTEyNywiZXhwIjoxNjY4Njg5OTI3fQ.QqUbrXmPKQIETjId95y8Ccot1gs_vAiyPqqd3zCF5O0",
+				"test@test.com");
+		generateNonJwtService.deleteJwtTokenIdByEmailAddress("test@test.com");
+		assertEquals(null, generateNonJwtRepository.searchJwtTokenByJwtTokenId(result));
+	}
+
+	@Test
+	void testDeleteJwtTokenByEmailAddressNullPattern() {
+		try {
+
+			var result = generateNonJwtService.generateNonJwtToken(
+					"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0a3lzbjEwMjhAZ21haWwuY29tIiwiaXNzIjoiY29tLnNvbm8ubXliYXRjaCIsImlhdCI6MTY2ODA4NTEyNywiZXhwIjoxNjY4Njg5OTI3fQ.QqUbrXmPKQIETjId95y8Ccot1gs_vAiyPqqd3zCF5O0",
+					null);
+		} catch (IllegalArgumentException e) {
+			assertTrue(e.getMessage().matches(".*User Authentication Is Invalid."));
+		}
+	}
 }

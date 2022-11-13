@@ -20,12 +20,15 @@ public class GenerateNonJwtService {
 	@Autowired
 	JwtUtils jwtUtils;
 
-	public String generateNonJwtToken(String token) {
+	public String generateNonJwtToken(String token, String emailAddress) {
 		if (token == null) {
 			throw new IllegalArgumentException("Not valid Token.");
 		}
+		if (emailAddress == null) {
+			throw new IllegalArgumentException("User Authentication Is Invalid.");
+		}
 		var tokenId = "jwtid: ".concat(StringUtils.replace(UUID.randomUUID().toString(), "-", ""));
-		generateNonJwtRepository.generateNonJwtToken(jwtUtils.removeJwtIdBearer(tokenId), token);
+		generateNonJwtRepository.generateNonJwtToken(jwtUtils.removeJwtIdBearer(tokenId), token, emailAddress);
 		log.info("Successfully inserted token : {}, and token Id : {}", token, tokenId);
 		return tokenId;
 	}
@@ -48,5 +51,12 @@ public class GenerateNonJwtService {
 	public void deleteJwtTokenId(String tokenId) {
 		generateNonJwtRepository.deleteJwtTokenId(jwtUtils.removeJwtIdBearer(tokenId));
 		log.info("Successfully Deleted tokenId : {}", tokenId);
+	}
+
+	public void deleteJwtTokenIdByEmailAddress(String emailAddress) {
+		if (emailAddress == null) {
+			throw new IllegalArgumentException("User Authentication Is Invalid.");
+		}
+		generateNonJwtRepository.deleteInsertedJwtTokenIdByEmailAddress(emailAddress);
 	}
 }

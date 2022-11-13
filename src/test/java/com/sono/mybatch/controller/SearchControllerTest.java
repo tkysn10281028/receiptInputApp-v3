@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @TestInstance(Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
 @Slf4j
+
 class SearchControllerTest {
 	private String accessToken = "";
 	@Autowired

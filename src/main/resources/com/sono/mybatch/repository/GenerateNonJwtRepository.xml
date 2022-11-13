@@ -15,11 +15,13 @@
             INSERT INTO TOKEN_INFO
                 (
                     TOKEN_ID
+                    , EMAIL_ADDRESS
                     , TOKEN
                     , CREATE_PRG
                     ,UPDATE_PRG
                 ) VALUES(
                     #{tokenId}
+                    , #{emailAddress}
                     , #{jwtToken}
                     , 'GenerateNonJwtRepository'
                     , 'GenerateNonJwtRepository'
@@ -36,5 +38,11 @@
                 FROM TOKEN_INFO
             WHERE
                 CREATE_PRG = 'GenerateNonJwtRepository'
+        </delete>
+        <delete id="deleteInsertedJwtTokenIdByEmailAddress">
+            DELETE
+                FROM TOKEN_INFO
+            WHERE
+                EMAIL_ADDRESS = #{emailAddress}
         </delete>
     </mapper> 

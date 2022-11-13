@@ -37,7 +37,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		var token = jwtUtils.generateAccessToken(auth.getName());
 		log.info("json web token : {}", token);
 
-		String tokenId = generateNonJwtService.generateNonJwtToken(token);
+		String tokenId = generateNonJwtService.generateNonJwtToken(token, auth.getName());
 		res.setHeader(HttpHeaders.AUTHORIZATION, tokenId);
 	}
 }

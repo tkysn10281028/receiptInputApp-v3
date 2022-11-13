@@ -17,5 +17,4 @@ class ReceiptInputWebApplicationTests {
 	void contextLoads() {
 		assertNotNull(controller);
 	}
-
 }
