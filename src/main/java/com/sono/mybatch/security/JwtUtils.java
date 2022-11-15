@@ -37,6 +37,7 @@ public class JwtUtils {
 		} catch (IllegalArgumentException ex) {
 			ex.printStackTrace();
 		}
+
 		return false;
 	}
 

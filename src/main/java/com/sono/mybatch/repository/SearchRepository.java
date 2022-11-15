@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.sono.mybatch.model.ItemInfoSearchCategoryResultModel;
 import com.sono.mybatch.model.ItemInfoSearchResultModel;
 
 @Mapper
@@ -24,4 +25,11 @@ public interface SearchRepository {
 	 * @return
 	 */
 	public List<ItemInfoSearchResultModel> getResultForSearchBySearchWord(@Param("searchWord") String searchWord);
+
+	/**
+	 * 商品分類全件取得
+	 * 
+	 * @return
+	 */
+	public List<ItemInfoSearchCategoryResultModel> getCategories();
 }

@@ -57,4 +57,22 @@
             WHERE
                 MII.ITEM_NAME_FOR_SEARCH LIKE BINARY CONCAT('%',#{searchWord},'%')
         </select>
+        <select id="getCategories" resultType="com.sono.mybatch.model.ItemInfoSearchCategoryResultModel">
+           SELECT
+               MJ.ITEM_MAJOR_DIV,
+               MJ.ITEM_MAJOR_NAME,
+               MD.ITEM_MIDDLE_DIV,
+               MD.ITEM_MIDDLE_NAME,
+               MN.ITEM_MINOR_DIV,
+               MN.ITEM_MINOR_NAME
+           FROM
+               M_ITEM_CLASS_MAJOR_INFO MJ
+           LEFT JOIN M_ITEM_CLASS_MIDDLE_INFO MD ON
+               MJ.ITEM_MAJOR_DIV = MD.ITEM_MAJOR_DIV
+           LEFT JOIN
+               M_ITEM_CLASS_MINOR_INFO MN
+           ON
+               MN.ITEM_MAJOR_DIV = MD.ITEM_MAJOR_DIV 
+           AND MN.ITEM_MIDDLE_DIV = MD.ITEM_MIDDLE_DIV
+        </select>
     </mapper>

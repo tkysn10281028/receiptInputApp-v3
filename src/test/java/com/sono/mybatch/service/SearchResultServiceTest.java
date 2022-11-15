@@ -2,6 +2,8 @@ package com.sono.mybatch.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import com.sono.mybatch.model.ItemInfoSearchResultModel;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -21,7 +25,7 @@ class SearchResultServiceTest {
 
 	@Test
 	void testGetResultBySearchWord() {
-		var result = resultService.getResultBySearchWord("12345");
+		List<ItemInfoSearchResultModel> result = resultService.getResultBySearchWord("12345");
 		assertEquals(1, result.size());
 		assertEquals("i0000007", result.get(0).getItemId());
 		assertEquals("12345", result.get(0).getItemName());
@@ -37,7 +41,7 @@ class SearchResultServiceTest {
 
 	@Test
 	void testGetResultBySearchWordByItemNameForSearch() {
-		var result = resultService.getResultBySearchWord("ｲ");
+		List<ItemInfoSearchResultModel> result = resultService.getResultBySearchWord("ｲ");
 		assertEquals(1, result.size());
 		assertEquals("i0000013", result.get(0).getItemId());
 		assertEquals("98765", result.get(0).getItemName());
@@ -53,7 +57,7 @@ class SearchResultServiceTest {
 
 	@Test
 	void testGetResultBySearchWordByItemNameNotFound() {
-		var result = resultService.getResultBySearchWord("unknown");
+		List<ItemInfoSearchResultModel> result = resultService.getResultBySearchWord("unknown");
 		assertEquals(0, result.size());
 	}
 

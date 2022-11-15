@@ -46,23 +46,24 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 		String token = header;
 		if (!jwtUtils.validate(token)) {
-			log.info("token validation failed. -> check if token mapped in the token table.");
+			log.info("token validation failed. -> check if token mapped in the token table.:{}", token);
 			try {
 				token = generateNonJwtService.searchJwtTokenByJwtId(token);
+				log.info("token:{}", token);
 				if (!jwtUtils.validate(token)) {
 					filterChain.doFilter(request, response);
 					return;
 				}
-			} catch (IllegalArgumentException e) {
+				UserDetails userDetails = detailsService.loadUserByUsername(jwtUtils.getUserEmailAddress(token));
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+						userDetails, null, userDetails.getAuthorities());
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+				filterChain.doFilter(request, response);
+			} catch (Exception e) {
 				response.setStatus(403);
 			}
 		}
-		UserDetails userDetails = detailsService.loadUserByUsername(jwtUtils.getUserEmailAddress(token));
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-				userDetails.getAuthorities());
-		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		filterChain.doFilter(request, response);
-	}
 
+	}
 }

@@ -1,10 +1,12 @@
 package com.sono.mybatch.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sono.mybatch.dto.ItemInfoSearchResultDto;
 import com.sono.mybatch.model.ItemInfoSearchResultModel;
 import com.sono.mybatch.repository.SearchRepository;
 
@@ -24,5 +26,13 @@ public class SearchResultService {
 		} else {
 			return searchResultModelList;
 		}
+	}
+
+	public List<ItemInfoSearchResultDto> getCategories() {
+		var list = new ArrayList<ItemInfoSearchResultDto>();
+		searchRepository.getCategories().forEach((category) -> {
+//			list.add(beanMapper.map(category, ItemInfoSearchResultDto.class));
+		});
+		return list;
 	}
 }

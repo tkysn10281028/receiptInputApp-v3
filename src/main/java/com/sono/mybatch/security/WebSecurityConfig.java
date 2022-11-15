@@ -44,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public LogoutSuccessHandler logoutSuccessHandler() {
-		// ハンドラを返す
 		return new CustomLogoutSuccessHandler();
 	}
 
@@ -60,7 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().loginProcessingUrl("/").loginPage("/").usernameParameter("emailaddress")
 				.passwordParameter("password").permitAll().successHandler(successHandler)
 				.failureHandler(failureHandler);
-		http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("/", "/api/v1/getResultBySearchWord").permitAll().anyRequest()
+				.authenticated();
 		http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/api/v1/logout"))
 				.logoutSuccessHandler(logoutSuccessHandler());
