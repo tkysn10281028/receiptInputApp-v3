@@ -178,7 +178,7 @@ class SearchControllerTest {
 	@Test
 	void testJwtTokenIdForSearchController() throws Exception {
 		mockMvc.perform(post("/api/v1/getResultBySearchWord").param("searchWord", "ｶ").header("Authorization", "")
-				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().is3xxRedirection());
+				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
 	}
 
 }
