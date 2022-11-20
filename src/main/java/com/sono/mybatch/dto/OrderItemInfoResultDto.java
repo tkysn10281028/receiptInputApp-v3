@@ -2,25 +2,20 @@ package com.sono.mybatch.dto;
 
 import lombok.Data;
 
-/**
- * 注文確定情報APIの入力用DTO
- */
 @Data
-public class ItemListDtoForOrderConfirmDto {
+public class OrderItemInfoResultDto {
 	/**
-	 * 商品ID
+	 * 注文商品ID
 	 */
-	private String itemId;
+	private String orderItemId;
 	/**
-	 * 商品価格
+	 * 注文商品価格
 	 */
-	private Integer itemPrice;
-
+	private Integer orderItemPrice;
 	/**
 	 * 値引き区分
 	 */
 	private String discountDiv;
-
 	/**
 	 * 値引き金額
 	 */

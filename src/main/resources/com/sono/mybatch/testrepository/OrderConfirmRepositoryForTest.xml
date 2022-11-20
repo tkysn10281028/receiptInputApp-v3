@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.sono.mybatch.testrepository.OrderConfirmRepositoryForTest">
+        <insert id="insertTestDataLoginInfo">
+            INSERT INTO `LOGIN_INFO` (`LOGIN_ID`, `EMAIL_ADDRESS`, `PASSWORD`, `USER_NAME`, `CREATE_PRG`, `CREATE_DATE_TIME`, `UPDATE_PRG`, `UPDATE_DATE_TIME`) VALUES ('L000', 'test@test.com', '$2a$10$7.bQ6Ob1bhEmjrf7o1k83.T0Dcj2lG7IwhY3Kuq2RhIbGs80iYghO', 'test', 'OrderConfirmRepositoryForTest', '2022-10-29 21:20:43', 'OrderConfirmRepositoryForTest', '2022-10-29 21:20:43');        
+        </insert>
+        <delete id="deleteTestDataLoginInfo">
+            DELETE 
+            FROM
+                LOGIN_INFO
+            WHERE
+                CREATE_PRG = 'OrderConfirmRepositoryForTest'
+        </delete>
+        <insert id="insertTestDataDestinationInfo">
+            INSERT INTO `DESTINATION_INFO` (`LOGIN_ID`, `DESTINATION_INFO_LOGIN_BRANCH`, `DESTINATION_EMAIL_ADDRESS`, `DESTINATION_NAME`, `DESTINATION_TEL_NO`, `DESTINATION_POSTAL_CODE`, `DESTINATION_PREFECTURE`, `DESTINATION_CITY`, `DESTINATION_TOWN`, `DESTINATION_TOWN_NO`, `DESTINATION_BUILDING`, `DESTINATION_ROOM_NO`, `PERSONAL_NAME`, `PERSONAL_TEL_NO`, `PERSONAL_POSTAL_CODE`, `PERSONAL_PREFECTURE`, `PERSONAL_CITY`, `PERSONAL_TOWN`, `PERSONAL_TOWN_NO`, `PERSONAL_BUILDING`, `PERSONAL_ROOM_NO`, `CREATE_PRG`, `CREATE_DATE_TIME`, `UPDATE_PRG`, `UPDATE_DATE_TIME`) VALUES ('L000', '1', 'test@test.com', 'testname', '00000000000', '0000000', 'PREFECTURE', 'CITY', 'TOWN', '0-0-0', 'BUILDING', 'ROOMNO', 'test', '00000000000', '0000000', 'PREFECTURE', 'CITY', 'TOWN', '0-0-0', 'BUILDING', 'ROOMNO', 'OrderConfirmRepositoryForTest', CURRENT_TIMESTAMP, 'OrderConfirmRepositoryForTest', CURRENT_TIMESTAMP), ('L000', '2', 'あいえうお', '名前', '00000000000', '0000000', '県', '市', '町', '0000000', '建物', '部屋', '名前', '00000000000', '０００００００', '県', '市', '町', '００００', '建物', '部屋番号', 'OrderConfirmRepositoryForTest', CURRENT_TIMESTAMP, 'OrderConfirmRepositoryForTest', CURRENT_TIMESTAMP)
+         </insert>
+        <delete id="deleteTestDataDestinationInfo">
+            DELETE FROM DESTINATION_INFO WHERE CREATE_PRG = 'OrderConfirmRepositoryForTest'
+        </delete>
+        <insert id="insertTestDataSettlementInfo">
+            INSERT INTO `SETTLEMENT_INFO` (`LOGIN_ID`, `SETTLEMENT_INFO_LOGIN_BRANCH`, `CARD_COMPANY_ID`, `CREDIT_CARD_NO`, `SECURITY_CODE`, `EXPIRE_DATE`, `CREATE_PRG`, `CREATE_DATE_TIME`, `UPDATE_PRG`, `UPDATE_DATE_TIME`) VALUES ('L000', '1', 'C000', '000000000000000000000', '0000', '202304', 'OrderConfirmRepositoryForTest', CURRENT_TIMESTAMP, 'OrderConfirmRepositoryForTest', CURRENT_TIMESTAMP), ('L000', '2', 'C000', '9999999999999999999999', '9999', '999999', 'OrderConfirmRepositoryForTest', CURRENT_TIMESTAMP, 'OrderConfirmRepositoryForTest', CURRENT_TIMESTAMP)
+        </insert>
+        <delete id="deleteTestDataSettlementInfo">
+            DELETE FROM SETTLEMENT_INFO WHERE CREATE_PRG = 'OrderConfirmRepositoryForTest'
+        </delete>
+        <insert id="insertTestDataOrderItemInfo">
+            INSERT INTO `ORDER_ITEM_INFO` (`LOGIN_ID`, `ORDER_ITEM_ID`, `ORDER_ITEM_PRICE`, `DISCOUNT_DIV`, `DISCOUNT_MONEY`, `CREATE_PRG`, `CREATE_DATE_TIME`, `UPDATE_DATE_TIME`, `UPDATE_PRG`) VALUES ('L000', 'i0000001', 500, 'd000', 0, 'OrderConfirmRepositoryForTest', '2022-11-20 06:49:30', 'OrderConfirmRepositoryForTest', '2022-11-20 06:49:30'), ('L000', 'i0000002', 600, 'd000', 0, 'OrderConfirmRepositoryForTest', '2022-11-20 06:49:30', 'OrderConfirmRepositoryForTest', '2022-11-20 06:49:30'), ('L000', 'i0000003', 700, 'd000', 0, 'OrderConfirmRepositoryForTest', '2022-11-20 06:49:30', 'OrderConfirmRepositoryForTest', '2022-11-20 06:49:30'), ('L000', 'i0000004', 800, 'd000', 0, 'OrderConfirmRepositoryForTest', '2022-11-20 06:49:30', 'OrderConfirmRepositoryForTest', '2022-11-20 06:49:30');
+        </insert>
+        <delete id="deleteTestDataOrderItemInfo">
+            DELETE FROM ORDER_ITEM_INFO WHERE CREATE_PRG = 'OrderConfirmRepositoryForTest' 
+        </delete>
+    </mapper> 

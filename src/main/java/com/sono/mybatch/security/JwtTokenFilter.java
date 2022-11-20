@@ -54,6 +54,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 					filterChain.doFilter(request, response);
 					return;
 				}
+
 				authenticationForMethod(request, response, filterChain, token);
 
 			} catch (Exception e) {

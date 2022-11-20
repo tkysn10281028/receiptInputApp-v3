@@ -32,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 class SearchControllerTest {
 	private String accessToken = "";
+
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
@@ -44,7 +45,7 @@ class SearchControllerTest {
 	@BeforeAll
 	public void generateAccessToken() {
 		this.accessToken += jwtUtils.generateAccessToken("tkysn1028@gmail.com");
-		log.info("access token : {}", this.accessToken);
+		log.info("access token for SearchControllerTest: {}", this.accessToken);
 	}
 
 	@Test
