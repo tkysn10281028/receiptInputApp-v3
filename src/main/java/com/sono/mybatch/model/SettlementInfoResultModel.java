@@ -11,7 +11,7 @@ public class SettlementInfoResultModel {
 	/**
 	 * カード会社ID
 	 */
-	private String cardCompanyCode;
+	private String cardCompanyId;
 	/**
 	 * クレジットカード番号
 	 */

@@ -70,8 +70,8 @@ class OrderConfirmControllerTest {
 		confirmRepositoryForTest.insertTestDataSettlementInfo();
 		confirmRepositoryForTest.insertTestDataOrderItemInfo();
 		this.mockMvc
-				.perform(post("/api/v1/getPersonalInfoByAuthentication").param("searchWord", "0")
-						.header("Authorization", this.accessToken).contentType(MediaType.APPLICATION_JSON_VALUE))
+				.perform(post("/api/v1/getPersonalInfoByAuthentication").header("Authorization", this.accessToken)
+						.contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk()).andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
 				.andExpect(jsonPath("$", hasSize(1))).andExpect(jsonPath("$[0].loginId").value("L000"))
 				.andExpect(jsonPath("$[0].destinationInfoResultDtos[0].destinationInfoLoginBranch").value(1))
@@ -115,12 +115,12 @@ class OrderConfirmControllerTest {
 				.andExpect(jsonPath("$[0].destinationInfoResultDtos[1].personalBuilding").value("建物"))
 				.andExpect(jsonPath("$[0].destinationInfoResultDtos[1].personalRoomNo").value("部屋番号"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].settlementInfoLoginBranch").value(1))
-				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].cardCompanyCode").value("C000"))
+				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].cardCompanyId").value("C000"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].creditCardNo").value("000000000000000000000"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].securityCode").value("0000"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].expireDate").value("202304"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].settlementInfoLoginBranch").value(2))
-				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].cardCompanyCode").value("C000"))
+				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].cardCompanyId").value("C000"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].creditCardNo").value("9999999999999999999999"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].securityCode").value("9999"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].expireDate").value("999999"))
@@ -153,8 +153,8 @@ class OrderConfirmControllerTest {
 		confirmRepositoryForTest.insertTestDataOrderItemInfo();
 		String tokenId = generateNonJwtService.generateNonJwtToken(this.accessToken, "test@test.com");
 		this.mockMvc
-				.perform(post("/api/v1/getPersonalInfoByAuthentication").param("searchWord", "0")
-						.header("Authorization", tokenId).contentType(MediaType.APPLICATION_JSON_VALUE))
+				.perform(post("/api/v1/getPersonalInfoByAuthentication").header("Authorization", tokenId)
+						.contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk()).andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
 				.andExpect(jsonPath("$", hasSize(1))).andExpect(jsonPath("$[0].loginId").value("L000"))
 				.andExpect(jsonPath("$[0].destinationInfoResultDtos[0].destinationInfoLoginBranch").value(1))
@@ -198,12 +198,12 @@ class OrderConfirmControllerTest {
 				.andExpect(jsonPath("$[0].destinationInfoResultDtos[1].personalBuilding").value("建物"))
 				.andExpect(jsonPath("$[0].destinationInfoResultDtos[1].personalRoomNo").value("部屋番号"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].settlementInfoLoginBranch").value(1))
-				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].cardCompanyCode").value("C000"))
+				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].cardCompanyId").value("C000"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].creditCardNo").value("000000000000000000000"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].securityCode").value("0000"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[0].expireDate").value("202304"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].settlementInfoLoginBranch").value(2))
-				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].cardCompanyCode").value("C000"))
+				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].cardCompanyId").value("C000"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].creditCardNo").value("9999999999999999999999"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].securityCode").value("9999"))
 				.andExpect(jsonPath("$[0].settlementInfoResultDtos[1].expireDate").value("999999"))

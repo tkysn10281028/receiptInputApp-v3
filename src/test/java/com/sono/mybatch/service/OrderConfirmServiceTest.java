@@ -45,6 +45,7 @@ class OrderConfirmServiceTest {
 
 	@Test
 	void testGetLoginIdByEmailAddress() {
+		var x = confirmRepository.getLoginIdByEmailAddress("test@test.com");
 		assertEquals("L000", confirmRepository.getLoginIdByEmailAddress("test@test.com"));
 	}
 
@@ -246,7 +247,7 @@ class OrderConfirmServiceTest {
 
 	private boolean isSettlementInfoExpected1() {
 		return confirmRepository.getSettlementInfoByLoginId("L000").get(0).getSettlementInfoLoginBranch() == 1
-				&& confirmRepository.getSettlementInfoByLoginId("L000").get(0).getCardCompanyCode().equals("C000")
+				&& confirmRepository.getSettlementInfoByLoginId("L000").get(0).getCardCompanyId().equals("C000")
 				&& confirmRepository.getSettlementInfoByLoginId("L000").get(0).getCreditCardNo()
 						.equals("000000000000000000000")
 				&& confirmRepository.getSettlementInfoByLoginId("L000").get(0).getSecurityCode().equals("0000")
@@ -255,7 +256,7 @@ class OrderConfirmServiceTest {
 
 	private boolean isSettlementInfoExpected2() {
 		return confirmRepository.getSettlementInfoByLoginId("L000").get(1).getSettlementInfoLoginBranch() == 2
-				&& confirmRepository.getSettlementInfoByLoginId("L000").get(1).getCardCompanyCode().equals("C000")
+				&& confirmRepository.getSettlementInfoByLoginId("L000").get(1).getCardCompanyId().equals("C000")
 				&& confirmRepository.getSettlementInfoByLoginId("L000").get(1).getCreditCardNo()
 						.equals("9999999999999999999999")
 				&& confirmRepository.getSettlementInfoByLoginId("L000").get(1).getSecurityCode().equals("9999")

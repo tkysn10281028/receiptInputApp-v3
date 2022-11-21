@@ -11,7 +11,7 @@ public class SettlementInfoResultDto {
 	/**
 	 * カード会社ID
 	 */
-	private String cardCompanyCode;
+	private String cardCompanyId;
 	/**
 	 * クレジットカード番号
 	 */

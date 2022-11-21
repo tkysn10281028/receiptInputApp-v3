@@ -3,4 +3,68 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="com.sono.mybatch.repository.OrderConfirmRepository">
+        <select id="getLoginIdByEmailAddress" resultType="String">
+            SELECT
+                LOGIN_ID
+            FROM
+                LOGIN_INFO
+            WHERE
+                EMAIL_ADDRESS = #{emailAddress}
+            ORDER BY LOGIN_ID
+                LIMIT 1
+        </select>
+        <select id="getDestinationInfoByLoginId" resultType="com.sono.mybatch.model.DestinationInfoResultModel">
+            SELECT
+                DESTINATION_INFO_LOGIN_BRANCH,
+                DESTINATION_EMAIL_ADDRESS,
+                DESTINATION_NAME,
+                DESTINATION_TEL_NO,
+                DESTINATION_POSTAL_CODE,
+                DESTINATION_PREFECTURE,
+                DESTINATION_CITY,
+                DESTINATION_TOWN,
+                DESTINATION_TOWN_NO,
+                DESTINATION_BUILDING,
+                DESTINATION_ROOM_NO,
+                PERSONAL_NAME,
+                PERSONAL_TEL_NO,
+                PERSONAL_POSTAL_CODE,
+                PERSONAL_PREFECTURE,
+                PERSONAL_CITY,
+                PERSONAL_TOWN,
+                PERSONAL_TOWN_NO,
+                PERSONAL_BUILDING,
+                PERSONAL_ROOM_NO
+            FROM
+                DESTINATION_INFO
+            WHERE
+                LOGIN_ID = #{loginId}
+            ORDER BY
+                DESTINATION_INFO_LOGIN_BRANCH
+        </select>
+        <select id="getSettlementInfoByLoginId" resultType="com.sono.mybatch.model.SettlementInfoResultModel">
+            SELECT
+                SETTLEMENT_INFO_LOGIN_BRANCH,
+                CARD_COMPANY_ID,
+                CREDIT_CARD_NO,
+                SECURITY_CODE,
+                EXPIRE_DATE
+            FROM
+                SETTLEMENT_INFO
+            WHERE
+                LOGIN_ID = #{loginId}
+            ORDER BY
+                SETTLEMENT_INFO_LOGIN_BRANCH
+        </select>
+        <select id="getOrderItemInfoByLoginId" resultType="com.sono.mybatch.model.OrderItemInfoResultModel">
+        SELECT
+            ORDER_ITEM_ID,
+            ORDER_ITEM_PRICE,
+            DISCOUNT_DIV,
+            DISCOUNT_MONEY
+        FROM
+            ORDER_ITEM_INFO
+        WHERE
+            LOGIN_ID = #{loginId}
+        </select>
     </mapper> 

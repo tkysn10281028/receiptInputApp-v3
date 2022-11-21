@@ -11,7 +11,7 @@ import com.sono.mybatch.model.SettlementInfoResultModel;
 
 @Mapper
 public interface OrderConfirmRepository {
-	public String getLoginIdByEmailAddress(String emailAddress);
+	public String getLoginIdByEmailAddress(@Param("emailAddress") String emailAddress);
 
 	public List<DestinationInfoResultModel> getDestinationInfoByLoginId(@Param("loginId") String loginId);
 
