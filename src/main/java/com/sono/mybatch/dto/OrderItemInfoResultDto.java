@@ -8,6 +8,11 @@ public class OrderItemInfoResultDto {
 	 * 注文商品ID
 	 */
 	private String orderItemId;
+
+	/**
+	 * 商品名
+	 */
+	private String orderItemName;
 	/**
 	 * 注文商品価格
 	 */

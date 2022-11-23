@@ -70,6 +70,7 @@ class OrderConfirmControllerTest {
 		confirmRepositoryForTest.insertTestDataSettlementInfo();
 		confirmRepositoryForTest.insertTestDataOrderItemInfo();
 		this.mockMvc
+
 				.perform(post("/api/v1/getPersonalInfoByAuthentication").header("Authorization", this.accessToken)
 						.contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk()).andExpect(status().isOk()).andExpect(jsonPath("$").isArray())

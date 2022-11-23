@@ -59,11 +59,16 @@
         <select id="getOrderItemInfoByLoginId" resultType="com.sono.mybatch.model.OrderItemInfoResultModel">
         SELECT
             ORDER_ITEM_ID,
+            B.ITEM_NAME AS ORDER_ITEM_NAME,
             ORDER_ITEM_PRICE,
             DISCOUNT_DIV,
             DISCOUNT_MONEY
         FROM
-            ORDER_ITEM_INFO
+            ORDER_ITEM_INFO A
+        INNER JOIN
+            M_ITEM_INFO B
+        ON
+            A.ORDER_ITEM_ID = B.ITEM_ID
         WHERE
             LOGIN_ID = #{loginId}
         </select>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.sono.mybatch.repository.AddressSearchRepository">
+        <select id="getAddressByPostalCode" resultType="com.sono.mybatch.model.AddressSearchResultByPostalCodeModel">
+            SELECT
+                zip,
+                ken_name,
+                city_name,
+                town_name,
+                block_name
+            FROM
+                ad_address
+            WHERE
+                zip = #{postalCode}
+            ORDER BY id ASC
+            LIMIT 1
+        </select>
+        <select id="getAllKen">
+            SELECT
+                ken_id,
+                ken_name
+            FROM
+                ad_address
+            GROUP BY
+                ken_name,ken_id
+            ORDER BY ken_id;
+        </select>
+    </mapper> 
