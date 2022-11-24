@@ -141,24 +141,150 @@ class AddressSearchServiceTest {
 		assertEquals("ア", result.get(0).getBlockName());
 	}
 
-//	@Test
-//	void testGetAllKen() {
-//		var result = addressSearchService.getAllKen();
-//		assertEquals(47, result.size());
-//		assertEquals(null, result.get(0).getZip());
-//		assertEquals(null, result.get(0).getTownName());
-//		assertEquals(null, result.get(0).getTownId());
-//		assertEquals(null, result.get(0).getCityName());
-//		assertEquals(null, result.get(0).getCityId());
-//		assertEquals("北海道", result.get(0).getKenName());
-//		assertEquals("埼玉県", result.get(10).getKenName());
-//		assertEquals("岐阜県", result.get(20).getKenName());
-//		assertEquals("鳥取県", result.get(30).getKenName());
-//		assertEquals("佐賀県", result.get(40).getKenName());
-//		assertEquals("沖縄県", result.get(46).getKenName());
-//		for (int i = 0; i < result.size(); i++) {
-//			assertEquals(i + 1, result.get(i).getKenId());
-//		}
-//	}
+	@Test
+	void testGetAllKen() {
+		var result = addressSearchService.getAllKen();
+		assertEquals(47, result.size());
+		assertEquals(null, result.get(0).getZip());
+		assertEquals(null, result.get(0).getTownName());
+		assertEquals(null, result.get(0).getTownId());
+		assertEquals(null, result.get(0).getCityName());
+		assertEquals(null, result.get(0).getCityId());
+		assertEquals("北海道", result.get(0).getKenName());
+		assertEquals("埼玉県", result.get(10).getKenName());
+		assertEquals("岐阜県", result.get(20).getKenName());
+		assertEquals("鳥取県", result.get(30).getKenName());
+		assertEquals("佐賀県", result.get(40).getKenName());
+		assertEquals("沖縄県", result.get(46).getKenName());
+		for (int i = 0; i < result.size(); i++) {
+			assertEquals(String.valueOf(i + 1), result.get(i).getKenId());
+		}
+	}
+
+	@Test
+	void testGetCityOrTownInfoOrZipCodeByIdKen0City0Town0() {
+		try {
+			var result = addressSearchService.getCityOrTownInfoOrZipCodeById(null, null, null);
+		} catch (IllegalArgumentException e) {
+			assertTrue(e.getMessage().matches(".*Invalid Address Id."));
+		}
+	}
+
+	@Test
+	void testGetCityOrTownInfoOrZipCodeByIdKen1City0Town0NotFound() {
+		var result = addressSearchService.getCityOrTownInfoOrZipCodeById("100", null, null);
+		assertEquals(0, result.size());
+	}
+
+	@Test
+	void testGetCityOrTownInfoOrZipCodeByIdKen1City0Town0Found() {
+		var result = addressSearchService.getCityOrTownInfoOrZipCodeById("23", null, null);
+		assertEquals(73, result.size());
+		assertEquals(null, result.get(0).getZip());
+		assertEquals("23", result.get(0).getKenId());
+		assertEquals("愛知県", result.get(0).getKenName());
+		assertEquals("23101", result.get(0).getCityId());
+		assertEquals("名古屋市千種区", result.get(0).getCityName());
+		assertEquals(null, result.get(0).getTownId());
+		assertEquals(null, result.get(0).getTownName());
+		assertEquals(null, result.get(0).getConcatAddress());
+	}
+
+	@Test
+	void testGetCityOrTownInfoOrZipCodeByIdKen1City1Town0Found() {
+		var result = addressSearchService.getCityOrTownInfoOrZipCodeById("23", "23101", null);
+		assertEquals(73, result.size());
+		assertEquals(null, result.get(0).getZip());
+		assertEquals("23", result.get(0).getKenId());
+		assertEquals("愛知県", result.get(0).getKenName());
+		assertEquals("23101", result.get(0).getCityId());
+		assertEquals("名古屋市千種区", result.get(0).getCityName());
+		assertEquals(null, result.get(0).getTownId());
+		assertEquals(null, result.get(0).getTownName());
+		assertEquals(null, result.get(0).getConcatAddress());
+
+	}
+
+	@Test
+	void testGetCityOrTownInfoOrZipCodeByIdKen1City0Town1Found() {
+		var result = addressSearchService.getCityOrTownInfoOrZipCodeById("23", null, "231010001");
+		assertEquals(73, result.size());
+		assertEquals(null, result.get(0).getZip());
+		assertEquals("23", result.get(0).getKenId());
+		assertEquals("愛知県", result.get(0).getKenName());
+		assertEquals("23101", result.get(0).getCityId());
+		assertEquals("名古屋市千種区", result.get(0).getCityName());
+		assertEquals(null, result.get(0).getTownId());
+		assertEquals(null, result.get(0).getTownName());
+		assertEquals(null, result.get(0).getConcatAddress());
+
+	}
+
+	@Test
+	void testGetCityOrTownInfoOrZipCodeByIdKen1City1Town1Found() {
+		var result = addressSearchService.getCityOrTownInfoOrZipCodeById("23", "23101", "231010001");
+		assertEquals(73, result.size());
+		assertEquals(null, result.get(0).getZip());
+		assertEquals("23", result.get(0).getKenId());
+		assertEquals("愛知県", result.get(0).getKenName());
+		assertEquals("23101", result.get(0).getCityId());
+		assertEquals("名古屋市千種区", result.get(0).getCityName());
+		assertEquals(null, result.get(0).getTownId());
+		assertEquals(null, result.get(0).getTownName());
+		assertEquals(null, result.get(0).getConcatAddress());
+
+	}
+
+	@Test
+	void testGetCityOrTownInfoOrZipCodeByIdKen0City1Town1Found() {
+		var result = addressSearchService.getCityOrTownInfoOrZipCodeById(null, "23101", "231010001");
+		assertEquals(120, result.size());
+		assertEquals(null, result.get(0).getZip());
+		assertEquals("23", result.get(0).getKenId());
+		assertEquals("愛知県", result.get(0).getKenName());
+		assertEquals("23101", result.get(0).getCityId());
+		assertEquals("名古屋市千種区", result.get(0).getCityName());
+		assertEquals("231010000", result.get(0).getTownId());
+		assertEquals("", result.get(0).getTownName());
+		assertEquals(null, result.get(0).getConcatAddress());
+
+	}
+
+	@Test
+	void testGetCityOrTownInfoOrZipCodeByIdKen0City1Town0Found() {
+		var result = addressSearchService.getCityOrTownInfoOrZipCodeById(null, "23101", null);
+		assertEquals(120, result.size());
+		assertEquals(null, result.get(0).getZip());
+		assertEquals("23", result.get(0).getKenId());
+		assertEquals("愛知県", result.get(0).getKenName());
+		assertEquals("23101", result.get(0).getCityId());
+		assertEquals("名古屋市千種区", result.get(0).getCityName());
+		assertEquals("231010000", result.get(0).getTownId());
+		assertEquals("", result.get(0).getTownName());
+		assertEquals(null, result.get(0).getConcatAddress());
+
+	}
+
+	@Test
+	void testGetCityOrTownInfoOrZipCodeByIdKen0City0Town1Found() {
+		var result = addressSearchService.getCityOrTownInfoOrZipCodeById(null, null, "231010001");
+		assertEquals(2, result.size());
+		assertEquals("464-0852", result.get(0).getZip());
+		assertEquals("23", result.get(0).getKenId());
+		assertEquals("愛知県", result.get(0).getKenName());
+		assertEquals("23101", result.get(0).getCityId());
+		assertEquals("名古屋市千種区", result.get(0).getCityName());
+		assertEquals("231010001", result.get(0).getTownId());
+		assertEquals("青柳町", result.get(0).getTownName());
+		assertEquals("愛知県名古屋市千種区青柳町", result.get(0).getConcatAddress());
+		assertEquals("464-8641", result.get(1).getZip());
+		assertEquals("23", result.get(1).getKenId());
+		assertEquals("愛知県", result.get(1).getKenName());
+		assertEquals("23101", result.get(1).getCityId());
+		assertEquals("名古屋市千種区", result.get(1).getCityName());
+		assertEquals("231010001", result.get(1).getTownId());
+		assertEquals("青柳町", result.get(1).getTownName());
+		assertEquals("愛知県名古屋市千種区青柳町５丁目６", result.get(1).getConcatAddress());
+	}
 
 }

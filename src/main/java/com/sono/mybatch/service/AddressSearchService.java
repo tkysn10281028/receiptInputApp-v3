@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.dozermapper.core.Mapper;
+import com.sono.mybatch.dto.AddressSearchResultByAddressDto;
 import com.sono.mybatch.dto.AddressSearchResultByPostalCodeDto;
 import com.sono.mybatch.repository.AddressSearchRepository;
 
@@ -31,7 +32,27 @@ public class AddressSearchService {
 
 	}
 
-//	public List<AddressSearchResultByAddressDto> getAllKen() {
-//
-//	}
+	public List<AddressSearchResultByAddressDto> getAllKen() {
+		return addressSearchRepository.getAllKen().stream()
+				.map((ken) -> beanMapper.map(ken, AddressSearchResultByAddressDto.class)).collect(Collectors.toList());
+	}
+
+	public List<AddressSearchResultByAddressDto> getCityOrTownInfoOrZipCodeById(String kenId, String cityId,
+			String townId) {
+		if (kenId != null) {
+			return addressSearchRepository.getAddressByKenId(kenId).stream()
+					.map((address) -> beanMapper.map(address, AddressSearchResultByAddressDto.class))
+					.collect(Collectors.toList());
+		} else if (cityId != null) {
+			return addressSearchRepository.getAddressByCityId(cityId).stream()
+					.map((address) -> beanMapper.map(address, AddressSearchResultByAddressDto.class))
+					.collect(Collectors.toList());
+		} else if (townId != null) {
+			return addressSearchRepository.getAddressByTownId(townId).stream()
+					.map((address) -> beanMapper.map(address, AddressSearchResultByAddressDto.class))
+					.collect(Collectors.toList());
+		} else {
+			throw new IllegalArgumentException("Invalid Address Id.");
+		}
+	}
 }

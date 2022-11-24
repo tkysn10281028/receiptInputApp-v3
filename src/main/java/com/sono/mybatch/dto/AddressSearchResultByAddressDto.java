@@ -33,4 +33,8 @@ public class AddressSearchResultByAddressDto {
 	 * 町丁名
 	 */
 	private String townName;
+	/**
+	 * 結合住所
+	 */
+	private String concatAddress;
 }

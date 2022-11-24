@@ -59,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().loginProcessingUrl("/").loginPage("/").usernameParameter("emailaddress")
 				.passwordParameter("password").permitAll().successHandler(successHandler)
 				.failureHandler(failureHandler);
-		http.authorizeRequests().antMatchers("/", "/api/v1/getResultBySearchWord", "/api/v1/getAddressByPostalCode")
-				.permitAll().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("/", "/api/v1/getResultBySearchWord", "/api/v1/getAddressByPostalCode",
+				"/api/v1/getAllKen", "/api/v1/getAddressById").permitAll().anyRequest().authenticated();
 
 		http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/api/v1/logout"))

@@ -35,21 +35,20 @@ public class AddressSearchController {
 
 	@RequestMapping(path = "/api/v1/getAllKen", method = RequestMethod.POST)
 	public List<AddressSearchResultByAddressDto> getAddressByKenId() {
-		return null;
+		return addressSearchService.getAllKen();
 	}
 
-	@RequestMapping(path = "/api/v1/getAddressByKenId", method = RequestMethod.POST)
-	public List<AddressSearchResultByAddressDto> getAddressByKenId(@RequestParam("kenId") String kenId) {
-		return null;
-	}
-
-	@RequestMapping(path = "/api/v1/getAddressByCityId", method = RequestMethod.POST)
-	public List<AddressSearchResultByAddressDto> getAddressByCityId(@RequestParam("cityId") String cityId) {
-		return null;
-	}
-
-	@RequestMapping(path = "/api/v1/getAddressByTownId", method = RequestMethod.POST)
-	public List<AddressSearchResultByAddressDto> getAddressByTownId(@RequestParam("townId") String townId) {
-		return null;
+	@RequestMapping(path = "/api/v1/getAddressById", method = RequestMethod.POST)
+	public ResponseEntity<List<AddressSearchResultByAddressDto>> getAddressById(
+			@RequestParam(value = "kenId", required = false) String kenId,
+			@RequestParam(value = "cityId", required = false) String cityId,
+			@RequestParam(value = "townId", required = false) String townId) {
+		try {
+			var result = addressSearchService.getCityOrTownInfoOrZipCodeById(kenId, cityId, townId);
+			return new ResponseEntity<List<AddressSearchResultByAddressDto>>(result, new HttpHeaders(), HttpStatus.OK);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<List<AddressSearchResultByAddressDto>>(null, new HttpHeaders(),
+					HttpStatus.BAD_REQUEST);
+		}
 	}
 }

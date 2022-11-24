@@ -15,4 +15,8 @@ public interface AddressSearchRepository {
 	public List<AddressSearchResultByAddressModel> getAllKen();
 
 	public List<AddressSearchResultByAddressModel> getAddressByKenId(@Param("kenId") String kenId);
+
+	public List<AddressSearchResultByAddressModel> getAddressByCityId(@Param("cityId") String cityId);
+
+	public List<AddressSearchResultByAddressModel> getAddressByTownId(@Param("townId") String townId);
 }

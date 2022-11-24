@@ -33,7 +33,6 @@ class AddressSearchControllerTest {
 	MockMvc mockMvc;
 	@Autowired
 	JwtUtils jwtUtils;
-	private String accessToken;
 	@Autowired
 	GenerateNonJwtService generateNonJwtService;
 
@@ -95,6 +94,108 @@ class AddressSearchControllerTest {
 	void testGetAddressByPostalCodeNotValidChar() throws Exception {
 		this.mockMvc.perform(post("/api/v1/getAddressByPostalCode").param("postalCode", "1-1")
 				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isBadRequest());
+	}
+
+	@Test
+	void testGetAllKen() throws Exception {
+		this.mockMvc.perform(post("/api/v1/getAllKen").contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(47)))
+				.andExpect(jsonPath("$[0].zip").isEmpty()).andExpect(jsonPath("$[0].cityId").isEmpty())
+				.andExpect(jsonPath("$[0].townName").isEmpty()).andExpect(jsonPath("$[0].townId").isEmpty())
+				.andExpect(jsonPath("$[0].kenId").value(1)).andExpect(jsonPath("$[0].kenName").value("北海道"));
+	}
+
+	@Test
+	void getAddressByIdKenId1CityId0TownId0() throws Exception {
+		this.mockMvc
+				.perform(post("/api/v1/getAddressById").param("kenId", "23")
+						.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(73)))
+				.andExpect(jsonPath("$[24].zip").isEmpty()).andExpect(jsonPath("$[24].kenId").value(23))
+				.andExpect(jsonPath("$[24].kenName").value("愛知県")).andExpect(jsonPath("$[24].cityId").value(23209))
+				.andExpect(jsonPath("$[24].cityName").value("碧南市")).andExpect(jsonPath("$[24].townName").isEmpty())
+				.andExpect(jsonPath("$[24].townId").isEmpty()).andExpect(jsonPath("$[24].concatAddress").isEmpty());
+	}
+
+	@Test
+	void getAddressByIdKenId1CityId1TownId0() throws Exception {
+		this.mockMvc
+				.perform(post("/api/v1/getAddressById").param("kenId", "23").param("cityId", "23102")
+						.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(73)))
+				.andExpect(jsonPath("$[24].zip").isEmpty()).andExpect(jsonPath("$[24].kenId").value(23))
+				.andExpect(jsonPath("$[24].kenName").value("愛知県")).andExpect(jsonPath("$[24].cityId").value(23209))
+				.andExpect(jsonPath("$[24].cityName").value("碧南市")).andExpect(jsonPath("$[24].townName").isEmpty())
+				.andExpect(jsonPath("$[24].townId").isEmpty()).andExpect(jsonPath("$[24].concatAddress").isEmpty());
+	}
+
+	@Test
+	void getAddressByIdKenId1CityId0TownId1() throws Exception {
+		this.mockMvc
+				.perform(post("/api/v1/getAddressById").param("kenId", "23").param("townId", "231020001")
+						.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(73)))
+				.andExpect(jsonPath("$[24].zip").isEmpty()).andExpect(jsonPath("$[24].kenId").value(23))
+				.andExpect(jsonPath("$[24].kenName").value("愛知県")).andExpect(jsonPath("$[24].cityId").value(23209))
+				.andExpect(jsonPath("$[24].cityName").value("碧南市")).andExpect(jsonPath("$[0].townName").isEmpty())
+				.andExpect(jsonPath("$[0].townId").isEmpty()).andExpect(jsonPath("$[24].concatAddress").isEmpty());
+	}
+
+	@Test
+	void getAddressByIdKenId1CityId1TownId1() throws Exception {
+		this.mockMvc
+				.perform(post("/api/v1/getAddressById").param("kenId", "23").param("cityId", "23102")
+						.param("townId", "231020001").contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(73)))
+				.andExpect(jsonPath("$[24].zip").isEmpty()).andExpect(jsonPath("$[24].kenId").value(23))
+				.andExpect(jsonPath("$[24].kenName").value("愛知県")).andExpect(jsonPath("$[24].cityId").value(23209))
+				.andExpect(jsonPath("$[24].cityName").value("碧南市")).andExpect(jsonPath("$[24].townName").isEmpty())
+				.andExpect(jsonPath("$[24].townId").isEmpty()).andExpect(jsonPath("$[24].concatAddress").isEmpty());
+	}
+
+	@Test
+	void getAddressByIdKenId0CityId1TownId1() throws Exception {
+		this.mockMvc
+				.perform(post("/api/v1/getAddressById").param("cityId", "23102").param("townId", "231020001")
+						.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(43)))
+				.andExpect(jsonPath("$[24].zip").isEmpty()).andExpect(jsonPath("$[24].kenId").value(23))
+				.andExpect(jsonPath("$[24].kenName").value("愛知県")).andExpect(jsonPath("$[24].cityId").value(23102))
+				.andExpect(jsonPath("$[24].cityName").value("名古屋市東区")).andExpect(jsonPath("$[24].townName").value("徳川"))
+				.andExpect(jsonPath("$[24].townId").value("231020024"))
+				.andExpect(jsonPath("$[24].concatAddress").isEmpty());
+	}
+
+	@Test
+	void getAddressByIdKenId0CityId1TownId0() throws Exception {
+		this.mockMvc
+				.perform(post("/api/v1/getAddressById").param("cityId", "23102")
+						.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(43)))
+				.andExpect(jsonPath("$[24].zip").isEmpty()).andExpect(jsonPath("$[24].kenId").value(23))
+				.andExpect(jsonPath("$[24].kenName").value("愛知県")).andExpect(jsonPath("$[24].cityId").value(23102))
+				.andExpect(jsonPath("$[24].cityName").value("名古屋市東区")).andExpect(jsonPath("$[24].townName").value("徳川"))
+				.andExpect(jsonPath("$[24].townId").value("231020024"))
+				.andExpect(jsonPath("$[24].concatAddress").isEmpty());
+	}
+
+	@Test
+	void getAddressByIdKenId0CityId0TownId1() throws Exception {
+		this.mockMvc
+				.perform(post("/api/v1/getAddressById").param("townId", "231020005")
+						.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(10)))
+				.andExpect(jsonPath("$[6].zip").value("461-8555")).andExpect(jsonPath("$[6].kenId").value(23))
+				.andExpect(jsonPath("$[6].kenName").value("愛知県")).andExpect(jsonPath("$[6].cityId").value(23102))
+				.andExpect(jsonPath("$[6].cityName").value("名古屋市東区")).andExpect(jsonPath("$[6].townName").value("泉"))
+				.andExpect(jsonPath("$[6].townId").value("231020005"))
+				.andExpect(jsonPath("$[6].concatAddress").value("愛知県名古屋市東区泉３丁目４－３"));
+	}
+
+	@Test
+	void getAddressByIdKenId0CityId0TownId0() throws Exception {
+		this.mockMvc.perform(post("/api/v1/getAddressById").contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isBadRequest());
 	}
 
 }

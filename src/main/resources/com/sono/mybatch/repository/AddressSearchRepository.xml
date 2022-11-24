@@ -17,7 +17,7 @@
             ORDER BY id ASC
             LIMIT 1
         </select>
-        <select id="getAllKen">
+        <select id="getAllKen" resultType="com.sono.mybatch.model.AddressSearchResultByAddressModel">
             SELECT
                 ken_id,
                 ken_name
@@ -26,5 +26,56 @@
             GROUP BY
                 ken_name,ken_id
             ORDER BY ken_id;
+        </select>
+        <select id="getAddressByKenId" resultType="com.sono.mybatch.model.AddressSearchResultByAddressModel">
+            SELECT
+                ken_id,
+                ken_name,
+                city_id,
+                city_name
+            FROM
+                ad_address
+            WHERE
+                ken_id = #{kenId}
+            GROUP BY ken_id,ken_name,city_id,city_name
+                ORDER BY city_id
+        </select>
+        <select id="getAddressByCityId" resultType="com.sono.mybatch.model.AddressSearchResultByAddressModel">
+            SELECT
+                ken_id,ken_name,city_id,city_name,town_id,town_name
+            FROM
+                ad_address
+            WHERE
+                city_id = #{cityId}
+            GROUP BY ken_id,ken_name,city_id,city_name,town_id,town_name
+            ORDER BY town_id
+        </select>
+        <select id="getAddressByTownId" resultType="com.sono.mybatch.model.AddressSearchResultByAddressModel">
+            SELECT
+                zip,
+                ken_id,
+                city_id,
+                town_id,
+                ken_name,
+                city_name,
+                town_name,
+                CASE WHEN office_name = '' THEN 
+                    CONCAT(
+                        ken_name,
+                        city_name,
+                        town_name,
+                        block_name
+                    )
+                ELSE
+                    CONCAT(
+                        ken_name,
+                        city_name,
+                        office_address
+                    )
+                END AS concat_address
+            FROM
+                ad_address
+            WHERE
+                town_id = #{townId}
         </select>
     </mapper> 
