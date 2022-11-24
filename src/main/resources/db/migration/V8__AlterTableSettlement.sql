@@ -3,6 +3,7 @@ drop table if exists DESTINATION_INFO;
 drop table if exists ORDER_INFO;
 drop table if exists POSTAL_CODE_INFO;
 drop table if exists SETTLEMENT_INFO;
+drop table if exists ORDER_ITEM_INFO;
 
 CREATE TABLE `DESTINATION_INFO` (
   `LOGIN_ID` varchar(10) NOT NULL,
